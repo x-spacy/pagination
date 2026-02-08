@@ -29,7 +29,7 @@ jobs:
         run: bun pm version ${{ github.event.release.tag_name }}
 
       - name: Build package and bundle source
-        run: bun build
+        run: bun run build
 
       - name: Publish package to registry
         run: bun publish --no-git-checks
