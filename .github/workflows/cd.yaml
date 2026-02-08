@@ -1,0 +1,37 @@
+name: Publish package to registry
+
+on:
+  release:
+    types:
+      - released
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Configure git user email
+        run: git config --global user.email "${{ github.event.release.author.email }}"
+
+      - name: Configure git user name
+        run: git config --global user.name "${{ github.event.release.author.login }}"
+
+      - name: Change package version
+        run: bun version ${{ github.event.release.tag_name }}
+
+      - name: Build package and bundle source
+        run: bun build
+
+      - name: Publish package to registry
+        run: bun publish --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "es2024",
+    "module": "commonjs",
+    "outDir": "dist",
+    "paths": {
+      "@x-spacy/pagination/*": [
+        "./src/*"
+      ]
+    },
+    "strict": true,
+    "skipLibCheck": true,
+    "removeComments": true,
+    "esModuleInterop": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "strictBindCallApply": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "@types/**/*",
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

@@ -1,0 +1,11 @@
+export * from '@x-spacy/pagination/interceptors/PaginationInterceptor';
+
+export * from '@x-spacy/pagination/operators/paginate';
+
+export * from '@x-spacy/pagination/schemas/Page';
+
+export * from '@x-spacy/pagination/schemas/PaginatedResponse';
+
+export * from '@x-spacy/pagination/schemas/PaginationLink';
+
+export * from '@x-spacy/pagination/schemas/PaginationMeta';

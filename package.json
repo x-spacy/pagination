@@ -1,0 +1,41 @@
+{
+  "name": "@x-spacy/pagination",
+  "version": "0.0.1",
+  "description": "A pagination library for NestJS",
+  "license": "X SPACY LICENSE AGREEMENT",
+  "private": false,
+  "main": "dist/index.js",
+  "types": "@types/index.d.ts",
+  "author": {
+    "name": "Vinícius Gutierrez da Silva Rocha",
+    "email": "srgutyerrez@gmail.com",
+    "url": "https://github.com/gutyerrez"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/x-spacy/pagination.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public",
+    "tag": "latest"
+  },
+  "engines": {
+    "bun": ">=1.3.5"
+  },
+  "scripts": {
+    "build": "nest build"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.1.13",
+    "@nestjs/core": "^11.1.13",
+    "@x-spacy/eslint-config": "^1.35.0",
+    "class-transformer": "^0.5.1",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.16",
+    "typescript": "^5.9.3"
+  }
+}
