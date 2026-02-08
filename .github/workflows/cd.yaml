@@ -26,7 +26,7 @@ jobs:
         run: git config --global user.name "${{ github.event.release.author.login }}"
 
       - name: Change package version
-        run: bun version ${{ github.event.release.tag_name }}
+        run: bun pm version ${{ github.event.release.tag_name }}
 
       - name: Build package and bundle source
         run: bun build
