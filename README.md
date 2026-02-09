@@ -138,7 +138,7 @@ The paginated response follows this format:
     {
       "url": null,
       "label": "« Previous",
-      "type": "PREV",
+      "type": "PREVIOUS",
       "active": false
     },
     {
@@ -203,7 +203,7 @@ Enum that defines the types of navigation links:
 enum PaginationLinkType {
   FIRST = 'FIRST',
   LAST = 'LAST',
-  PREV = 'PREV',
+  PREV = 'PREVIOUS',
   NEXT = 'NEXT',
   PAGE = 'PAGE'
 }
