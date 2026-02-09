@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2024",
     "module": "commonjs",
-    "rootDir": ".",
+    "rootDir": "src",
     "outDir": "dist",
     "declarationDir": "@types",
     "paths": {
