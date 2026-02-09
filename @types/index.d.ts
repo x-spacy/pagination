@@ -1,4 +1,4 @@
-export * from './enums/PaginationLinkType.d.ts';
+export * from './enums/PaginationLinkTypeEnum.d.ts';
 
 export * from './interceptors/PaginationInterceptor.d.ts';
 

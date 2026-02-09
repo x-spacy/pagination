@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-import { PaginationLinkType } from '@x-spacy/pagination/enums/PaginationLinkType';
+import { PaginationLinkTypeEnum } from '@x-spacy/pagination/enums/PaginationLinkTypeEnum';
 
 export class PaginationLink {
   @Expose({ name: 'url' })
@@ -10,7 +10,7 @@ export class PaginationLink {
   public readonly label: string;
 
   @Expose({ name: 'type' })
-  public readonly type: PaginationLinkType;
+  public readonly type: PaginationLinkTypeEnum;
 
   @Expose({ name: 'active' })
   public readonly active: boolean;
@@ -18,7 +18,7 @@ export class PaginationLink {
   constructor(
     url: string | null,
     label: string,
-    type: PaginationLinkType,
+    type: PaginationLinkTypeEnum,
     active: boolean
   ) {
     this.url = url;

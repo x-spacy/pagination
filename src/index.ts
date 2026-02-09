@@ -1,3 +1,5 @@
+export * from '@x-spacy/pagination/enums/PaginationLinkTypeEnum';
+
 export * from '@x-spacy/pagination/interceptors/PaginationInterceptor';
 
 export * from '@x-spacy/pagination/operators/paginate';

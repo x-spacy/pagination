@@ -1,4 +1,4 @@
-export enum PaginationLinkType {
+export declare enum PaginationLinkTypeEnum {
   FIRST = 'FIRST',
   LAST = 'LAST',
   PREVIOUS = 'PREVIOUS',

@@ -186,7 +186,7 @@ NestJS interceptor that transforms a `Page<T>` into a complete paginated respons
 
 ```typescript
 // Enums
-export { PaginationLinkType } from '@x-spacy/pagination';
+export { PaginationLinkTypeEnum } from '@x-spacy/pagination';
 
 // Interceptors
 export { PaginateInterceptor } from '@x-spacy/pagination';
@@ -195,15 +195,15 @@ export { PaginateInterceptor } from '@x-spacy/pagination';
 export { paginate } from '@x-spacy/pagination';
 ```
 
-### `PaginationLinkType`
+### `PaginationLinkTypeEnum`
 
 Enum that defines the types of navigation links:
 
 ```typescript
-enum PaginationLinkType {
+enum PaginationLinkTypeEnum {
   FIRST = 'FIRST',
   LAST = 'LAST',
-  PREV = 'PREVIOUS',
+  PREVIOUS = 'PREVIOUS',
   NEXT = 'NEXT',
   PAGE = 'PAGE'
 }

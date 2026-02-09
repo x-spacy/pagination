@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 
 import { PaginationLink } from '@x-spacy/pagination/schemas/PaginationLink';
 import { PaginationMeta } from '@x-spacy/pagination/schemas/PaginationMeta';
@@ -8,6 +8,7 @@ export class PaginatedResponse<T> {
   public readonly items: Array<T>;
 
   @Expose({ name: 'meta' })
+  @Type(() => PaginationMeta)
   public readonly meta: PaginationMeta;
 
   @Expose({ name: 'path' })
@@ -26,6 +27,7 @@ export class PaginatedResponse<T> {
   public readonly lastPageURL: string;
 
   @Expose({ name: 'links' })
+  @Type(() => PaginationLink)
   public readonly links: Array<PaginationLink>;
 
   constructor(

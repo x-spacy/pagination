@@ -14,7 +14,7 @@ import { PaginatedResponse } from '@x-spacy/pagination/schemas/PaginatedResponse
 import { PaginationLink } from '@x-spacy/pagination/schemas/PaginationLink';
 import { PaginationMeta } from '@x-spacy/pagination/schemas/PaginationMeta';
 
-import { PaginationLinkType } from '@x-spacy/pagination/enums/PaginationLinkType';
+import { PaginationLinkTypeEnum } from '@x-spacy/pagination/enums/PaginationLinkTypeEnum';
 
 @Injectable()
 export class PaginateInterceptor<T> implements NestInterceptor<Page<T>, PaginatedResponse<T>> {
@@ -72,8 +72,8 @@ export class PaginateInterceptor<T> implements NestInterceptor<Page<T>, Paginate
 
     links.push(new PaginationLink(
       currentPage > 1 ? buildUrl(currentPage - 1) : null,
-      '&laquo; Anterior',
-      PaginationLinkType.PREVIOUS,
+      '&laquo; Previous',
+      PaginationLinkTypeEnum.PREVIOUS,
       false
     ));
 
@@ -81,15 +81,15 @@ export class PaginateInterceptor<T> implements NestInterceptor<Page<T>, Paginate
       links.push(new PaginationLink(
         buildUrl(i),
         String(i),
-        PaginationLinkType.PAGE,
+        PaginationLinkTypeEnum.PAGE,
         i === currentPage
       ));
     }
 
     links.push(new PaginationLink(
       currentPage < lastPage ? buildUrl(currentPage + 1) : null,
-      'Próximo &raquo;',
-      PaginationLinkType.NEXT,
+      'Next &raquo;',
+      PaginationLinkTypeEnum.NEXT,
       false
     ));
 

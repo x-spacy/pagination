@@ -2,7 +2,7 @@
   "name": "@x-spacy/pagination",
   "version": "1.0.0",
   "description": "A pagination library for NestJS",
-  "license": "X SPACY LICENSE AGREEMENT",
+  "license": "MIT",
   "private": false,
   "main": "dist/index.js",
   "types": "@types/index.d.ts",
