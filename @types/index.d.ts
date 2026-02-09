@@ -1,6 +1,11 @@
-/// <reference path="./enums/PaginationLinkType.d.ts" />
-/// <reference path="./interceptors/PaginationInterceptor.d.ts" />
-/// <reference path="./operators/paginate.d.ts" />
-/// <reference path="./schemas/PaginatedResponse.d.ts" />
-/// <reference path="./schemas/PaginationLink.d.ts" />
-/// <reference path="./schemas/PaginationMeta.d.ts" />
+export * from './enums/PaginationLinkType.d.ts';
+
+export * from './interceptors/PaginationInterceptor.d.ts';
+
+export * from './operators/paginate.d.ts';
+
+export * from './schemas/PaginatedResponse.d.ts';
+
+export * from './schemas/PaginationLink.d.ts';
+
+export * from './schemas/PaginationMeta.d.ts';
