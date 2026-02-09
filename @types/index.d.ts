@@ -5,7 +5,7 @@ declare module '@x-spacy/pagination' {
   export enum PaginationLinkType {
     FIRST = 'FIRST',
     LAST = 'LAST',
-    PREV = 'PREV',
+    PREVIOUS = 'PREVIOUS',
     NEXT = 'NEXT',
     PAGE = 'PAGE'
   }

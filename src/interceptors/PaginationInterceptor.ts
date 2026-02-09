@@ -73,7 +73,7 @@ export class PaginateInterceptor<T> implements NestInterceptor<Page<T>, Paginate
     links.push(new PaginationLink(
       currentPage > 1 ? buildUrl(currentPage - 1) : null,
       '&laquo; Anterior',
-      PaginationLinkType.PREV,
+      PaginationLinkType.PREVIOUS,
       false
     ));
 
