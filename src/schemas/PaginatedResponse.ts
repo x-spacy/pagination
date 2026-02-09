@@ -14,16 +14,16 @@ export class PaginatedResponse<T> {
   public readonly path: string;
 
   @Expose({ name: 'first_page_url' })
-  public readonly firstPageUrl: string;
+  public readonly firstPageURL: string;
 
-  @Expose({ name: 'prev_page_url' })
-  public readonly prevPageUrl: string | null;
+  @Expose({ name: 'previous_page_url' })
+  public readonly previousPageURL: string | null;
 
   @Expose({ name: 'next_page_url' })
-  public readonly nextPageUrl: string | null;
+  public readonly nextPageURL: string | null;
 
   @Expose({ name: 'last_page_url' })
-  public readonly lastPageUrl: string;
+  public readonly lastPageURL: string;
 
   @Expose({ name: 'links' })
   public readonly links: Array<PaginationLink>;
@@ -32,19 +32,19 @@ export class PaginatedResponse<T> {
     items: Array<T>,
     meta: PaginationMeta,
     path: string,
-    firstPageUrl: string,
-    prevPageUrl: string | null,
-    nextPageUrl: string | null,
-    lastPageUrl: string,
+    firstPageURL: string,
+    previousPageURL: string | null,
+    nextPageURL: string | null,
+    lastPageURL: string,
     links: Array<PaginationLink>
   ) {
     this.items = items;
     this.meta = meta;
     this.path = path;
-    this.firstPageUrl = firstPageUrl;
-    this.prevPageUrl = prevPageUrl;
-    this.nextPageUrl = nextPageUrl;
-    this.lastPageUrl = lastPageUrl;
+    this.firstPageURL = firstPageURL;
+    this.previousPageURL = previousPageURL;
+    this.nextPageURL = nextPageURL;
+    this.lastPageURL = lastPageURL;
     this.links = links;
   }
 }
