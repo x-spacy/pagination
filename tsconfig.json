@@ -4,14 +4,12 @@
     "module": "commonjs",
     "rootDir": "src",
     "outDir": "dist",
-    "declarationDir": "@types",
     "paths": {
       "@x-spacy/pagination/*": [
         "./src/*"
       ]
     },
     "strict": true,
-    "declaration": true,
     "skipLibCheck": true,
     "removeComments": true,
     "esModuleInterop": true,
