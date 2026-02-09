@@ -21,9 +21,9 @@ export class PaginateInterceptor<T> implements NestInterceptor<Page<T>, Paginate
   public intercept(context: ExecutionContext, next: CallHandler<Page<T>>) {
     const request = context.switchToHttp().getRequest<Request>();
 
-    const page = Math.max(1, parseInt(request.query.page as string, 10) ?? 1);
+    const page = Math.max(1, parseInt(request.query.page as string, 10) || 1);
 
-    const perPage = Math.min(100, Math.max(1, parseInt(request.query.perPage as string, 10) ?? 10));
+    const perPage = Math.min(100, Math.max(1, parseInt(request.query.perPage as string, 10) || 10));
 
     const path = `${request.protocol}://${request.get('host') + request.path}`;
 
