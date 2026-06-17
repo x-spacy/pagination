@@ -24,7 +24,7 @@ export class PaginatedResponse<T> {
   public readonly nextPageURL: string | null;
 
   @Expose({ name: 'last_page_url' })
-  public readonly lastPageURL: string;
+  public readonly lastPageURL: string | null;
 
   @Expose({ name: 'links' })
   @Type(() => PaginationLink)
@@ -37,7 +37,7 @@ export class PaginatedResponse<T> {
     firstPageURL: string,
     previousPageURL: string | null,
     nextPageURL: string | null,
-    lastPageURL: string,
+    lastPageURL: string | null,
     links: Array<PaginationLink>
   ) {
     this.items = items;
