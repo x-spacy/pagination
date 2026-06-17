@@ -114,6 +114,89 @@ The interceptor expects the following query parameters:
 | `page`    | number | 1       | Current page number                      |
 | `perPage` | number | 10      | Number of items per page (max: 100)      |
 
+## Pagination Strategies
+
+The interceptor supports two strategies, selected explicitly when instantiated:
+`OFFSET` (default) and `CURSOR`. The default `@UseInterceptors(PaginateInterceptor)`
+uses `OFFSET` and is fully backward compatible.
+
+### Cursor Pagination
+
+Cursor pagination returns opaque, base64-encoded cursors derived from a field on your
+items (e.g. `id`). Pass the strategy and the `cursorKey` to the interceptor:
+
+```typescript
+import { PaginateInterceptor, PaginationStrategyEnum, paginate } from '@x-spacy/pagination';
+
+@Controller('services')
+export class ListServicesHttpController {
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  @UseInterceptors(new PaginateInterceptor({
+    strategy: PaginationStrategyEnum.CURSOR,
+    cursorKey: 'id'
+  }))
+  public async list(@Query() { cursor, perPage }: ListServicesHttpControllerQueryValidator) {
+    const { services, total } = await this.listServicesService.execute(cursor, perPage);
+
+    return paginate(services.map(service => ServiceHttpControllerSerializer.serialize(service)), total);
+  }
+}
+```
+
+Your service decodes the incoming `cursor` (via `decodeCursor`) to resolve where to
+continue the query from, and still returns the `total`. The interceptor builds the
+`next`/`previous` cursors from the first and last items of the current page.
+
+#### Cursor Query Parameters
+
+| Parameter | Type   | Default | Description                                        |
+|-----------|--------|---------|----------------------------------------------------|
+| `cursor`  | string | —       | Opaque base64 cursor; omit for the first page      |
+| `perPage` | number | 10      | Number of items per page (max: 100)                |
+
+#### Cursor Response Structure
+
+In cursor mode, `meta.from`, `meta.to` and `meta.current_page` are `null` (offsets are
+not derivable from an opaque cursor), `last_page_url` is `null` (the last cursor is not
+computable), and `meta.next_cursor`/`meta.previous_cursor` carry the cursors. The
+`links` array contains `FIRST`, `PREVIOUS` and `NEXT` entries (no numbered page links).
+
+```json
+{
+  "items": [...],
+  "meta": {
+    "from": null,
+    "to": null,
+    "current_page": null,
+    "last_page": 9,
+    "per_page": 3,
+    "total": 25,
+    "next_cursor": "MTM",
+    "previous_cursor": null
+  },
+  "path": "https://api.example.com/services",
+  "first_page_url": "https://api.example.com/services?perPage=3",
+  "previous_page_url": null,
+  "next_page_url": "https://api.example.com/services?cursor=MTM&perPage=3",
+  "last_page_url": null,
+  "links": [
+    { "url": "https://api.example.com/services?perPage=3", "label": "First", "type": "FIRST", "active": false },
+    { "url": null, "label": "« Previous", "type": "PREVIOUS", "active": false },
+    { "url": "https://api.example.com/services?cursor=MTM&perPage=3", "label": "Next »", "type": "NEXT", "active": false }
+  ]
+}
+```
+
+#### Cursor Helpers
+
+```typescript
+import { encodeCursor, decodeCursor } from '@x-spacy/pagination';
+
+const cursor = encodeCursor(42);   // 'NDI'
+const value = decodeCursor(cursor); // '42'
+```
+
 ## Response Structure
 
 The paginated response follows this format:
@@ -127,7 +210,9 @@ The paginated response follows this format:
     "current_page": 1,
     "last_page": 5,
     "per_page": 10,
-    "total": 50
+    "total": 50,
+    "next_cursor": null,
+    "previous_cursor": null
   },
   "path": "https://api.example.com/services",
   "first_page_url": "https://api.example.com/services?page=1&perPage=10",

@@ -14,7 +14,7 @@ export declare class PaginatedResponse<T> {
 
   public readonly nextPageURL: string | null;
 
-  public readonly lastPageURL: string;
+  public readonly lastPageURL: string | null;
 
   public readonly links: Array<PaginationLink>;
 }
