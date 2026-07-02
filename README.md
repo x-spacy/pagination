@@ -77,7 +77,7 @@ Make sure the following options are enabled in your `tsconfig.json`:
 
 To use pagination, you need **two mandatory elements**:
 
-1. **`PaginateInterceptor`**: Interceptor that processes the response and generates pagination metadata
+1. **`PaginateInterceptor()`**: Interceptor factory that processes the response and generates pagination metadata
 2. **`paginate()`**: Function that wraps the data to be processed by the interceptor
 
 ```typescript
@@ -96,7 +96,7 @@ export class ListServicesHttpController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  @UseInterceptors(PaginateInterceptor)
+  @UseInterceptors(PaginateInterceptor())
   public async list(@Query() { page, perPage }: ListServicesHttpControllerQueryValidator) {
     const { services, total } = await this.listServicesService.execute(page, perPage);
 
@@ -116,8 +116,8 @@ The interceptor expects the following query parameters:
 
 ## Pagination Strategies
 
-The interceptor supports two strategies, selected explicitly when instantiated:
-`OFFSET` (default) and `CURSOR`. The default `@UseInterceptors(PaginateInterceptor)`
+The interceptor supports two strategies, selected explicitly when creating it:
+`OFFSET` (default) and `CURSOR`. The default `@UseInterceptors(PaginateInterceptor())`
 uses `OFFSET` and is fully backward compatible.
 
 ### Cursor Pagination
@@ -132,7 +132,7 @@ import { PaginateInterceptor, PaginationStrategyEnum, paginate } from '@x-spacy/
 export class ListServicesHttpController {
   @Get()
   @HttpCode(HttpStatus.OK)
-  @UseInterceptors(new PaginateInterceptor({
+  @UseInterceptors(PaginateInterceptor({
     strategy: PaginationStrategyEnum.CURSOR,
     cursorKey: 'id'
   }))
@@ -263,9 +263,9 @@ Wraps the items and total to be processed by `PaginateInterceptor`.
 
 - `Page<T>`: Object that will be intercepted and transformed into `PaginatedResponse<T>`
 
-### `PaginateInterceptor`
+### `PaginateInterceptor(options?: PaginationOptions)`
 
-NestJS interceptor that transforms a `Page<T>` into a complete paginated response with metadata and navigation links.
+NestJS interceptor factory that transforms a `Page<T>` into a complete paginated response with metadata and navigation links.
 
 ### Exported Types
 
