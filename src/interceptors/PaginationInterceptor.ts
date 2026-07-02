@@ -21,7 +21,7 @@ import { PaginationStrategyEnum } from '@x-spacy/pagination/enums/PaginationStra
 import { encodeCursor } from '@x-spacy/pagination/utils/cursor';
 
 @Injectable()
-export class PaginateInterceptor<T> implements NestInterceptor<Page<T>, PaginatedResponse<T>> {
+export class PaginationInterceptor<T> implements NestInterceptor<Page<T>, PaginatedResponse<T>> {
   public constructor(
     private readonly options: PaginationOptions = { strategy: PaginationStrategyEnum.OFFSET }
   ) {}
@@ -190,4 +190,8 @@ export class PaginateInterceptor<T> implements NestInterceptor<Page<T>, Paginate
 
     return links;
   }
+}
+
+export function PaginateInterceptor<T>(options?: PaginationOptions) {
+  return new PaginationInterceptor<T>(options);
 }
