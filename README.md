@@ -137,16 +137,18 @@ export class ListServicesHttpController {
     cursorKey: 'id'
   }))
   public async list(@Query() { cursor, perPage }: ListServicesHttpControllerQueryValidator) {
-    const { services, total } = await this.listServicesService.execute(cursor, perPage);
+    const { services, total, hasMore } = await this.listServicesService.execute(cursor, perPage);
 
-    return paginate(services.map(service => ServiceHttpControllerSerializer.serialize(service)), total);
+    return paginate(services.map(service => ServiceHttpControllerSerializer.serialize(service)), total, hasMore);
   }
 }
 ```
 
 Your service decodes the incoming `cursor` (via `decodeCursor`) to resolve where to
-continue the query from, and still returns the `total`. The interceptor builds the
-`next`/`previous` cursors from the first and last items of the current page.
+continue the query from, still returns the `total`, and should over-fetch by one row
+to compute `hasMore` exactly. The interceptor builds the `next_cursor` from the last
+item of the current page only when `hasMore` is true. Cursor pagination is forward-only;
+`previous_cursor` and `previous_page_url` are `null`.
 
 #### Cursor Query Parameters
 
@@ -159,8 +161,10 @@ continue the query from, and still returns the `total`. The interceptor builds t
 
 In cursor mode, `meta.from`, `meta.to` and `meta.current_page` are `null` (offsets are
 not derivable from an opaque cursor), `last_page_url` is `null` (the last cursor is not
-computable), and `meta.next_cursor`/`meta.previous_cursor` carry the cursors. The
-`links` array contains `FIRST`, `PREVIOUS` and `NEXT` entries (no numbered page links).
+computable), and `meta.next_cursor` carries the next forward cursor. The `links` array
+contains `FIRST`, `PREVIOUS` and `NEXT` entries (no numbered page links), but the
+previous link remains `null` because reverse cursor queries are not inferred by the
+library.
 
 ```json
 {
@@ -250,7 +254,7 @@ The paginated response follows this format:
 
 ## API Reference
 
-### `paginate<T>(items: Array<T>, total: number): Page<T>`
+### `paginate<T>(items: Array<T>, total: number, hasMore?: boolean | null): Page<T>`
 
 Wraps the items and total to be processed by `PaginateInterceptor`.
 
@@ -258,6 +262,7 @@ Wraps the items and total to be processed by `PaginateInterceptor`.
 
 - `items`: Array of items for the current page
 - `total`: Total number of items (used to calculate pagination)
+- `hasMore`: Optional explicit next-page flag for cursor pagination. Compute it by over-fetching one row (`perPage + 1`) and trimming the extra row before passing `items`.
 
 **Returns:**
 

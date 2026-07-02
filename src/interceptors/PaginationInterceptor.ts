@@ -47,7 +47,7 @@ export class PaginationInterceptor<T> implements NestInterceptor<Page<T>, Pagina
   }
 
   protected buildOffset(request: Request, path: string, perPage: number, data: Page<T>) {
-    const { total, items } = data;
+    const { total, items, hasMore } = data;
 
     const page = Math.max(1, parseInt(request.query.page as string, 10) || 1);
 
@@ -84,7 +84,7 @@ export class PaginationInterceptor<T> implements NestInterceptor<Page<T>, Pagina
   }
 
   protected buildCursor(request: Request, path: string, perPage: number, data: Page<T>) {
-    const { total, items } = data;
+    const { total, items, hasMore } = data;
 
     const cursorKey = this.options.cursorKey;
 
@@ -93,15 +93,10 @@ export class PaginationInterceptor<T> implements NestInterceptor<Page<T>, Pagina
     }
 
     const hasItems = items.length > 0;
-    const hasMore = items.length === perPage;
-
-    const requestCursor = request.query.cursor as string | undefined;
+    const hasNextPage = hasMore ?? items.length === perPage;
 
     const nextCursor = hasItems
       ? encodeCursor((items[items.length - 1] as Record<string, unknown>)[cursorKey] as string | number)
-      : null;
-    const previousCursor = requestCursor && hasItems
-      ? encodeCursor((items[0] as Record<string, unknown>)[cursorKey] as string | number)
       : null;
 
     const lastPage = Math.max(1, Math.ceil(total / perPage));
@@ -109,8 +104,9 @@ export class PaginationInterceptor<T> implements NestInterceptor<Page<T>, Pagina
     const firstPageURL = `${path}?perPage=${perPage}`;
     const buildUrl = (cursor: string): string => `${path}?cursor=${cursor}&perPage=${perPage}`;
 
-    const previousPageURL = previousCursor ? buildUrl(previousCursor) : null;
-    const nextPageURL = hasMore && nextCursor ? buildUrl(nextCursor) : null;
+    const previousCursor = null;
+    const previousPageURL = null;
+    const nextPageURL = hasNextPage && nextCursor ? buildUrl(nextCursor) : null;
 
     const links = this.buildCursorLinks(firstPageURL, previousPageURL, nextPageURL);
 
@@ -123,7 +119,7 @@ export class PaginationInterceptor<T> implements NestInterceptor<Page<T>, Pagina
         lastPage,
         perPage,
         total,
-        nextCursor,
+        hasNextPage ? nextCursor : null,
         previousCursor
       ),
       path,
